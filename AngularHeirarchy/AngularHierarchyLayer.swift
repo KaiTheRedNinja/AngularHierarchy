@@ -8,17 +8,15 @@
 import SwiftUI
 
 struct AngularHierarchyLayer<Element: FanData>: View {
-    @Close
-    var elements: [Element]
+    @Close var elements: [Element]
 
-    @Close
-    var focusRequirement: CGFloat = 30
+    @Close var focusRequirement: CGFloat = 30
+    @Close var focusIncrease: CGFloat = 0.05
 
-    @Close
-    var focusIncrease: CGFloat = 0.05
+    @Close var showSelectedElementTitle: Bool = false
+    @Close var lineThicknessWhenSelected: CGFloat = 5
 
-    @Binding
-    var focusedElement: Element?
+    @Binding var focusedElement: Element?
 
     var shouldAllowExpansion: (Element) -> Bool = { _ in true }
 
@@ -29,7 +27,8 @@ struct AngularHierarchyLayer<Element: FanData>: View {
         ZStack {
             ForEach(Array(elements.enumerated()), id: \.element) { index, element in
                 AngularProgressElement(fillColour: element.color,
-                                       lineThickness: 15,
+                                       lineThickness: focusedElement == element ?
+                                            lineThicknessWhenSelected : 15,
                                        borderThickness: 3,
                                        spacing: 3,
                                        startAngle: startAngle(index: index,
@@ -116,7 +115,7 @@ struct AngularHierarchyLayer<Element: FanData>: View {
     }
 
     func label(element: Element) -> String? {
-        if focusedElement != nil {
+        if let focusedElement, !(focusedElement == element && showSelectedElementTitle) {
             return nil
         }
         return element.name
@@ -145,6 +144,7 @@ struct AngularHierarchyLayer_Previews: PreviewProvider {
 
         var body: some View {
             AngularHierarchyLayer(elements: ExampleFanData.examples,
+                                  showSelectedElementTitle: true,
                                   focusedElement: $focusedElement) { _ in
                 true
             }

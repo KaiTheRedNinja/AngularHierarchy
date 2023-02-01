@@ -9,13 +9,10 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        AngularHierarchyView { _, _ in
+            return ExampleFanData.examples
         }
-        .padding()
+        .frame(width: 300, height: 300)
     }
 }
 

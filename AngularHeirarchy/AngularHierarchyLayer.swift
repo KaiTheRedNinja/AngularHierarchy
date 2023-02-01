@@ -144,7 +144,7 @@ struct AngularHierarchyLayer_Previews: PreviewProvider {
 
         var body: some View {
             AngularHierarchyLayer(elements: ExampleFanData.examples,
-                                  showSelectedElementTitle: true,
+                                  showSelectedElementTitle: false,
                                   focusedElement: $focusedElement) { _ in
                 true
             }

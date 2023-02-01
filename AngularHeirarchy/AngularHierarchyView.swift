@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AngularHierarchyView<Element: FanData>: View {
     var data: (Int, Element?) -> [Element]
+    var shouldFocus: (Int, Element) -> Bool = { _, _ in true }
 
     @State var selectedElements: [Element] = []
     @State var layers: Int = 1
@@ -20,7 +21,10 @@ struct AngularHierarchyView<Element: FanData>: View {
         ZStack {
             ForEach(0..<layers, id: \.self) { layer in
                 AngularHierarchyLayer(elements: elements(for: layer),
-                                      focusedElement: focusedElement(for: layer))
+                                      originAngle: originAngle(for: layer),
+                                      focusedElement: focusedElement(for: layer)) { focusAttempt in
+                    shouldFocus(layer, focusAttempt)
+                }
                 .padding(padding(for: layer))
             }
 
@@ -42,6 +46,20 @@ struct AngularHierarchyView<Element: FanData>: View {
             return data(layer, selectedElements[layer-1])
         }
         return data(layer, nil)
+    }
+
+    func originAngle(for layer: Int) -> Angle {
+        if layer == 0 { return .zero }
+
+        let selectedElement = selectedElements[layer-1]
+        let elements = elements(for: layer-1)
+        guard let indexOfSelected = elements.firstIndex(of: selectedElement)
+        else { return .zero }
+
+        let startAngle: Angle = .degrees(180 * elements.progressBefore(indexOfSelected))
+        let arcAngle: Angle = .degrees(180 * selectedElement.progress)
+
+        return startAngle + (arcAngle/2)
     }
 
     func focusedElement(for layer: Int) -> Binding<Element?> {
@@ -81,8 +99,22 @@ struct AngularHierarchyView<Element: FanData>: View {
 
 struct AngularHierarchyView_Previews: PreviewProvider {
     static var previews: some View {
-        AngularHierarchyView { _, _ in
-            return ExampleFanData.examples
+        AngularHierarchyView<ExampleFanData> { layer, _ in
+            if layer == 0 {
+                return ExampleFanData.examples
+            } else if layer == 1 {
+                return [
+                    .init(color: .yellow,
+                          name: "70%",
+                          progress: 0.7),
+                    .init(color: .cyan,
+                          name: "30%",
+                          progress: 0.3),
+                ]
+            }
+            return []
+        } shouldFocus: { layer, data in
+            layer == 0
         }
         .frame(width: 300, height: 300)
     }

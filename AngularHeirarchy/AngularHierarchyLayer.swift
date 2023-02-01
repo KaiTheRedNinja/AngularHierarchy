@@ -16,7 +16,7 @@ struct AngularHierarchyLayer<Element: FanData>: View {
     @Close var showSelectedElementTitle: Bool = false
     @Close var lineThicknessWhenSelected: CGFloat = 5
 
-//    @Close var originAngle: Angle = .zero
+    @Close var originAngle: Angle = .zero
     @State private var expansion: CGFloat = 0
 
     @Binding var focusedElement: Element?
@@ -107,7 +107,11 @@ struct AngularHierarchyLayer<Element: FanData>: View {
             }
         }
 
-        return .degrees(180 * elements.progressBefore(index) * expansion)
+        let start: Angle = .degrees(180 * elements.progressBefore(index) * expansion)
+
+        let distanceFromOrigin = originAngle - start
+
+        return start + distanceFromOrigin * (1 - expansion)
     }
 
     func progress(element: Element) -> CGFloat {
@@ -158,6 +162,7 @@ struct AngularHierarchyLayer_Previews: PreviewProvider {
         var body: some View {
             AngularHierarchyLayer(elements: ExampleFanData.examples,
                                   showSelectedElementTitle: false,
+                                  originAngle: .degrees(90),
                                   focusedElement: $focusedElement) { _ in
                 true
             }

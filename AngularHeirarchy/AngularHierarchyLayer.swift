@@ -40,6 +40,9 @@ struct AngularHierarchyLayer<Element: FanData>: View {
                                        label: label(element: element))
                 .offset(element == draggedElement ? dragOffset : .zero)
                 .gesture(fanDragGesture(element: element))
+                .onTapGesture {
+                    toggleFocus(element: element)
+                }
             }
         }
         .onAppear {
@@ -78,16 +81,20 @@ struct AngularHierarchyLayer<Element: FanData>: View {
                     }
                     return
                 }
-                withAnimation(.easeOut(duration: 0.2)) {
-                    dragOffset = .zero
-                    draggedElement = nil
-                    if focusedElement == element {
-                        focusedElement = nil
-                    } else {
-                        focusedElement = element
-                    }
-                }
+                toggleFocus(element: element)
             }
+    }
+
+    func toggleFocus(element: Element) {
+        withAnimation(.easeOut(duration: 0.2)) {
+            dragOffset = .zero
+            draggedElement = nil
+            if focusedElement == element {
+                focusedElement = nil
+            } else {
+                focusedElement = element
+            }
+        }
     }
 
     func startAngle(index: Int, element: Element) -> Angle {

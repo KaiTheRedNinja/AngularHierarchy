@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct AngularHierarchyView<Element: FanData>: View {
-    var data: (Int, Element?) -> [Element]
-    var shouldFocus: (Int, Element) -> Bool = { _, _ in true }
-
     @State var selectedElements: [Element] = []
     @State var layers: Int = 1
     @State var numberOfExteriorRings: Int = 3
     @State var distanceBetweenRings: CGFloat = 15
     @State var diameterOfBlurCircle: CGFloat = 220
+
+    var data: (Int, Element?) -> [Element]
+    var shouldFocus: (Int, Element) -> Bool = { _, _ in true }
 
     var body: some View {
         ZStack {
@@ -113,7 +113,7 @@ struct AngularHierarchyView_Previews: PreviewProvider {
                 ]
             }
             return []
-        } shouldFocus: { layer, data in
+        } shouldFocus: { layer, _ in
             layer == 0
         }
         .frame(width: 300, height: 300)

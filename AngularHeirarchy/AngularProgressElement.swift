@@ -26,7 +26,7 @@ struct AngularProgressElement: View {
     @Close var label: String?
 
     init(fillColour: @escaping @autoclosure Clos<Color>,
-         secondaryColour: @escaping @autoclosure Clos<Color> = .white.opacity(0.3),
+         secondaryColour: @escaping @autoclosure Clos<Color> = .background.opacity(0.3),
          lineThickness: @escaping @autoclosure Clos<CGFloat>,
          borderThickness: @escaping @autoclosure Clos<CGFloat> = 3,
          spacing: @escaping @autoclosure Clos<CGFloat> = .zero,

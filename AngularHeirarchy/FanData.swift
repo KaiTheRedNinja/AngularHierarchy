@@ -21,6 +21,10 @@ extension Array where Element: FanData {
     }
 }
 
+extension Color {
+    static let background: Color = .init(uiColor: UIColor.systemBackground)
+}
+
 struct ExampleFanData: FanData {
     var color: Color
     var name: String

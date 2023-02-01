@@ -16,6 +16,9 @@ struct AngularHierarchyLayer<Element: FanData>: View {
     @Close var showSelectedElementTitle: Bool = false
     @Close var lineThicknessWhenSelected: CGFloat = 5
 
+//    @Close var originAngle: Angle = .zero
+    @State private var expansion: CGFloat = 0
+
     @Binding var focusedElement: Element?
 
     var shouldAllowExpansion: (Element) -> Bool = { _ in true }
@@ -37,6 +40,16 @@ struct AngularHierarchyLayer<Element: FanData>: View {
                                        label: label(element: element))
                 .offset(element == draggedElement ? dragOffset : .zero)
                 .gesture(fanDragGesture(element: element))
+            }
+        }
+        .onAppear {
+            withAnimation(.easeOut(duration: 0.2)) {
+                expansion = 1
+            }
+        }
+        .onDisappear() {
+            withAnimation(.easeOut(duration: 0.2)) {
+                expansion = 0
             }
         }
     }
@@ -94,7 +107,7 @@ struct AngularHierarchyLayer<Element: FanData>: View {
             }
         }
 
-        return .degrees(180 * elements.progressBefore(index))
+        return .degrees(180 * elements.progressBefore(index) * expansion)
     }
 
     func progress(element: Element) -> CGFloat {
@@ -111,7 +124,7 @@ struct AngularHierarchyLayer<Element: FanData>: View {
             }
         }
 
-        return 0.5 * element.progress
+        return 0.5 * element.progress * expansion
     }
 
     func label(element: Element) -> String? {

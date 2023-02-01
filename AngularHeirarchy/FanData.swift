@@ -29,13 +29,13 @@ struct ExampleFanData: FanData {
     var id = UUID()
 
     static var examples: [ExampleFanData] = [
-        .init(color: .red,
+        .init(color: .blue,
               name: "50%",
               progress: 0.5),
-        .init(color: .green,
+        .init(color: .pink,
               name: "30%",
               progress: 0.3),
-        .init(color: .blue,
+        .init(color: .purple,
               name: "20%",
               progress: 0.2)
     ]

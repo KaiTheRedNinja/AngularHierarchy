@@ -12,15 +12,29 @@ struct AngularHierarchyView<Element: FanData>: View {
 
     @State var selectedElements: [Element] = []
     @State var layers: Int = 1
+    @State var numberOfExteriorRings: Int = 3
+    @State var distanceBetweenRings: CGFloat = 15
+    @State var diameterOfBlurCircle: CGFloat = 220
 
     var body: some View {
         ZStack {
             ForEach(0..<layers, id: \.self) { layer in
                 AngularHierarchyLayer(elements: elements(for: layer),
                                       focusedElement: focusedElement(for: layer))
-                .padding(CGFloat(-15 * layer))
+                .padding(padding(for: layer))
             }
+
+            Circle()
+                .frame(width: diameterOfBlurCircle, height: diameterOfBlurCircle)
+                .foregroundColor(.init(uiColor: UIColor.systemBackground))
+                .blur(radius: 15)
         }
+    }
+
+    func padding(for layer: Int) -> CGFloat {
+        let numberOfExtraRings = max(0, layers - numberOfExteriorRings)
+        let lastExtra: CGFloat = layer == layers-1 ? 5 : 0
+        return distanceBetweenRings * CGFloat((layer - numberOfExtraRings) * -1) - lastExtra
     }
 
     func elements(for layer: Int) -> [Element] {
@@ -46,13 +60,22 @@ struct AngularHierarchyView<Element: FanData>: View {
     }
 
     func focusElement(element: Element) {
-        selectedElements.append(element)
-        layers += 1
+        withAnimation(.easeOut(duration: 0.2)) {
+            selectedElements.append(element)
+            layers += 1
+        }
     }
 
     func unfocusElement(index: Int) {
-        selectedElements = Array(selectedElements[0..<index])
-        layers = selectedElements.count+1
+        let newElements = Array(selectedElements[0..<index])
+        withAnimation(.easeOut(duration: 0.2)) {
+            layers = newElements.count+1
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            withAnimation {
+                selectedElements = newElements
+            }
+        }
     }
 }
 
@@ -61,5 +84,6 @@ struct AngularHierarchyView_Previews: PreviewProvider {
         AngularHierarchyView { _, _ in
             return ExampleFanData.examples
         }
+        .frame(width: 300, height: 300)
     }
 }

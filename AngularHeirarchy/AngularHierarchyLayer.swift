@@ -86,6 +86,7 @@ struct AngularHierarchyLayer<Element: FanData>: View {
     }
 
     func toggleFocus(element: Element) {
+        guard shouldAllowExpansion(element) else { return }
         withAnimation(.easeOut(duration: 0.2)) {
             dragOffset = .zero
             draggedElement = nil

@@ -98,19 +98,21 @@ struct AngularHierarchyView<Element: FanData>: View {
 }
 
 struct AngularHierarchyView_Previews: PreviewProvider {
+    static var secondLayer: [ExampleFanData] = [
+        .init(color: .yellow,
+              name: "70%",
+              progress: 0.7),
+        .init(color: .cyan,
+              name: "30%",
+              progress: 0.3),
+    ]
+
     static var previews: some View {
         AngularHierarchyView<ExampleFanData> { layer, _ in
             if layer == 0 {
                 return ExampleFanData.examples
             } else if layer == 1 {
-                return [
-                    .init(color: .yellow,
-                          name: "70%",
-                          progress: 0.7),
-                    .init(color: .cyan,
-                          name: "30%",
-                          progress: 0.3),
-                ]
+                return secondLayer
             }
             return []
         } shouldFocus: { layer, _ in

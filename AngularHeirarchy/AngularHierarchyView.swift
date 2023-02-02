@@ -7,15 +7,15 @@
 
 import SwiftUI
 
-struct AngularHierarchyView<Element: FanData>: View {
-    @State var selectedElements: [Element] = []
+struct AngularHierarchyView: View {
+    @State var selectedElements: [AnyFanData] = []
     @State var layers: Int = 1
     @State var numberOfExteriorRings: Int = 3
     @State var distanceBetweenRings: CGFloat = 15
     @State var diameterOfBlurCircle: CGFloat = 220
 
-    var data: (Int, Element?) -> [Element]
-    var shouldFocus: (Int, Element) -> Bool = { _, _ in true }
+    var data: (Int, AnyFanData?) -> [AnyFanData]
+    var shouldFocus: (Int, AnyFanData) -> Bool = { _, _ in true }
 
     var body: some View {
         ZStack {
@@ -41,7 +41,7 @@ struct AngularHierarchyView<Element: FanData>: View {
         return distanceBetweenRings * CGFloat((layer - numberOfExtraRings) * -1) - lastExtra
     }
 
-    func elements(for layer: Int) -> [Element] {
+    func elements(for layer: Int) -> [AnyFanData] {
         if layer > 0 {
             return data(layer, selectedElements[layer-1])
         }
@@ -62,7 +62,7 @@ struct AngularHierarchyView<Element: FanData>: View {
         return startAngle + (arcAngle/2)
     }
 
-    func focusedElement(for layer: Int) -> Binding<Element?> {
+    func focusedElement(for layer: Int) -> Binding<AnyFanData?> {
         .init {
             if layer >= selectedElements.count {
                 return nil
@@ -77,7 +77,7 @@ struct AngularHierarchyView<Element: FanData>: View {
         }
     }
 
-    func focusElement(element: Element) {
+    func focusElement(element: AnyFanData) {
         withAnimation(.easeOut(duration: 0.2)) {
             selectedElements.append(element)
             layers += 1
@@ -108,11 +108,11 @@ struct AngularHierarchyView_Previews: PreviewProvider {
     ]
 
     static var previews: some View {
-        AngularHierarchyView<ExampleFanData> { layer, _ in
+        AngularHierarchyView { layer, _ in
             if layer == 0 {
-                return ExampleFanData.examples
+                return ExampleFanData.examples.typeErased()
             } else if layer == 1 {
-                return secondLayer
+                return secondLayer.typeErased()
             }
             return []
         } shouldFocus: { layer, _ in

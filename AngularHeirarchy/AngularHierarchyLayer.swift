@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct AngularHierarchyLayer<Element: FanData>: View {
-    @Close var elements: [Element]
+struct AngularHierarchyLayer: View {
+    @Close var elements: [AnyFanData]
 
     @Close var focusRequirement: CGFloat = 30
     @Close var focusIncrease: CGFloat = 0.05
@@ -19,11 +19,11 @@ struct AngularHierarchyLayer<Element: FanData>: View {
     @Close var originAngle: Angle = .zero
     @State private var expansion: CGFloat = 0
 
-    @Binding var focusedElement: Element?
+    @Binding var focusedElement: AnyFanData?
 
-    var shouldAllowExpansion: (Element) -> Bool = { _ in true }
+    var shouldAllowExpansion: (AnyFanData) -> Bool = { _ in true }
 
-    @State private var draggedElement: Element?
+    @State private var draggedElement: AnyFanData?
     @State private var dragOffset: CGSize = .zero
 
     var body: some View {
@@ -57,7 +57,7 @@ struct AngularHierarchyLayer<Element: FanData>: View {
         }
     }
 
-    func fanDragGesture(element: Element) -> some Gesture {
+    func fanDragGesture(element: AnyFanData) -> some Gesture {
         DragGesture()
             .onChanged { value in
                 if draggedElement != element {
@@ -85,7 +85,7 @@ struct AngularHierarchyLayer<Element: FanData>: View {
             }
     }
 
-    func toggleFocus(element: Element) {
+    func toggleFocus(element: AnyFanData) {
         guard shouldAllowExpansion(element) else { return }
         withAnimation(.easeOut(duration: 0.2)) {
             dragOffset = .zero
@@ -98,7 +98,7 @@ struct AngularHierarchyLayer<Element: FanData>: View {
         }
     }
 
-    func startAngle(index: Int, element: Element) -> Angle {
+    func startAngle(index: Int, element: AnyFanData) -> Angle {
         if let draggedElement,
             draggedElement == element,
             shouldAllowExpansion(element),
@@ -122,7 +122,7 @@ struct AngularHierarchyLayer<Element: FanData>: View {
         return start + distanceFromOrigin * (1 - expansion)
     }
 
-    func progress(element: Element) -> CGFloat {
+    func progress(element: AnyFanData) -> CGFloat {
         if let draggedElement,
             draggedElement == element,
             shouldAllowExpansion(element),
@@ -139,7 +139,7 @@ struct AngularHierarchyLayer<Element: FanData>: View {
         return 0.5 * element.progress * expansion
     }
 
-    func label(element: Element) -> String? {
+    func label(element: AnyFanData) -> String? {
         if let focusedElement, !(focusedElement == element && showSelectedElementTitle) {
             return nil
         }
@@ -165,10 +165,10 @@ struct AngularHierarchyLayer_Previews: PreviewProvider {
 
     struct AngularHierarchyLayerWrapper: View {
         @State
-        var focusedElement: ExampleFanData?
+        var focusedElement: AnyFanData?
 
         var body: some View {
-            AngularHierarchyLayer(elements: ExampleFanData.examples,
+            AngularHierarchyLayer(elements: ExampleFanData.examples.typeErased(),
                                   showSelectedElementTitle: false,
                                   originAngle: .degrees(90),
                                   focusedElement: $focusedElement) { _ in

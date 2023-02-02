@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         AngularHierarchyView { _, _ in
-            return ExampleFanData.examples
+            return ExampleFanData.examples.typeErased()
         }
         .frame(width: 300, height: 300)
     }

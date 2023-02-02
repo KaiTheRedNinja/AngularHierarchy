@@ -19,6 +19,38 @@ extension Array where Element: FanData {
             partialResult + data.progress
         }
     }
+
+    func typeErased() -> [AnyFanData] {
+        return self.map { item in
+            AnyFanData(from: item)
+        }
+    }
+}
+
+struct AnyFanData: FanData {
+    var color: Color
+    var name: String
+    var progress: Double
+
+    var id: AnyHashable
+
+    init(color: Color,
+         name: String,
+         progress: Double,
+         id: AnyHashable = UUID()) {
+        self.color = color
+        self.name = name
+        self.progress = progress
+
+        self.id = id
+    }
+
+    init<F: FanData>(from sourceData: F) {
+        self.init(color: sourceData.color,
+                  name: sourceData.name,
+                  progress: sourceData.progress,
+                  id: sourceData.id)
+    }
 }
 
 extension Color {

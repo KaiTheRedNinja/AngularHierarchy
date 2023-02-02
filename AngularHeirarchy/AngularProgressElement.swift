@@ -9,38 +9,38 @@ import SwiftUI
 
 struct AngularProgressElement: View {
     /// The primary colour to fill the progress view
-    @Close var fillColour: Color
+    @Updating var fillColour: Color
     /// The secondary colour to fill the progress view
-    @Close var secondaryColour: Color
+    @Updating var secondaryColour: Color
     /// The thickness of the progress element
-    @Close var lineThickness: CGFloat
+    @Updating var lineThickness: CGFloat
     /// The thickness of the border of the progress element
-    @Close var borderThickness: CGFloat
+    @Updating var borderThickness: CGFloat
     /// How much spacing there is between the end of one element and the start of the next
-    @Close var spacing: CGFloat
+    @Updating var spacing: CGFloat
     /// The angle that the progress element starts at
-    @Close var startAngle: Angle
+    @Updating var startAngle: Angle
     /// The amount of progress to show in the progress element, as a decimal (eg. 0.5 for 50%)
-    @Close var progress: CGFloat
+    @Updating var progress: CGFloat
     /// The label shown
-    @Close var label: String?
+    @Updating var label: String?
 
-    init(fillColour: @escaping @autoclosure Clos<Color>,
-         secondaryColour: @escaping @autoclosure Clos<Color> = .background.opacity(0.3),
-         lineThickness: @escaping @autoclosure Clos<CGFloat>,
-         borderThickness: @escaping @autoclosure Clos<CGFloat> = 3,
-         spacing: @escaping @autoclosure Clos<CGFloat> = .zero,
-         startAngle: @escaping @autoclosure Clos<Angle>,
-         progress: @escaping @autoclosure Clos<CGFloat>,
-         label: @escaping @autoclosure Clos<String?>) {
-        self._fillColour = .init(wrappedValue: fillColour())
-        self._secondaryColour = .init(wrappedValue: secondaryColour())
-        self._lineThickness = .init(wrappedValue: lineThickness())
-        self._borderThickness = .init(wrappedValue: borderThickness())
-        self._spacing = .init(wrappedValue: spacing())
-        self._startAngle = .init(wrappedValue: startAngle())
-        self._progress = .init(wrappedValue: progress())
-        self._label = .init(wrappedValue: label())
+    init(fillColour: Color,
+         secondaryColour: Color = .background.opacity(0.3),
+         lineThickness: CGFloat,
+         borderThickness: CGFloat = 3,
+         spacing: CGFloat = .zero,
+         startAngle: Angle,
+         progress: CGFloat,
+         label: String?) {
+        self._fillColour = .init(wrappedValue: fillColour)
+        self._secondaryColour = .init(wrappedValue: secondaryColour)
+        self._lineThickness = .init(wrappedValue: lineThickness)
+        self._borderThickness = .init(wrappedValue: borderThickness)
+        self._spacing = .init(wrappedValue: spacing)
+        self._startAngle = .init(wrappedValue: startAngle)
+        self._progress = .init(wrappedValue: progress)
+        self._label = .init(wrappedValue: label)
     }
 
     var body: some View {

@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct AngularHierarchyLayer: View {
-    @Close var elements: [AnyFanData]
+    @Updating var elements: [AnyFanData]
 
-    @Close var focusRequirement: CGFloat = 30
-    @Close var focusIncrease: CGFloat = 0.05
+    @Updating var focusRequirement: CGFloat = 30
+    @Updating var focusIncrease: CGFloat = 0.05
 
-    @Close var showSelectedElementTitle: Bool = false
-    @Close var lineThicknessWhenSelected: CGFloat = 5
+    @Updating var showSelectedElementTitle: Bool = false
+    @Updating var lineThicknessWhenSelected: CGFloat = 5
 
-    @Close var originAngle: Angle = .zero
+    @Updating var originAngle: Angle = .zero
     @State private var expansion: CGFloat = 0
 
     @Binding var focusedElement: AnyFanData?

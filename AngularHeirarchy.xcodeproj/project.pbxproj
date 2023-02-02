@@ -11,7 +11,7 @@
 		938FDAC7298A452F009A47D9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938FDAC6298A452F009A47D9 /* ContentView.swift */; };
 		938FDAC9298A4530009A47D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 938FDAC8298A4530009A47D9 /* Assets.xcassets */; };
 		938FDACC298A4530009A47D9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 938FDACB298A4530009A47D9 /* Preview Assets.xcassets */; };
-		938FDAD3298A45B2009A47D9 /* Closure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938FDAD2298A45B2009A47D9 /* Closure.swift */; };
+		938FDAD3298A45B2009A47D9 /* Updating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938FDAD2298A45B2009A47D9 /* Updating.swift */; };
 		938FDAD5298A45CA009A47D9 /* AngularProgressElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938FDAD4298A45CA009A47D9 /* AngularProgressElement.swift */; };
 		938FDAD7298A4611009A47D9 /* AngularHierarchyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938FDAD6298A4611009A47D9 /* AngularHierarchyView.swift */; };
 		938FDAD9298A461E009A47D9 /* AngularHierarchyLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938FDAD8298A461E009A47D9 /* AngularHierarchyLayer.swift */; };
@@ -24,7 +24,7 @@
 		938FDAC6298A452F009A47D9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		938FDAC8298A4530009A47D9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		938FDACB298A4530009A47D9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		938FDAD2298A45B2009A47D9 /* Closure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Closure.swift; sourceTree = "<group>"; };
+		938FDAD2298A45B2009A47D9 /* Updating.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Updating.swift; sourceTree = "<group>"; };
 		938FDAD4298A45CA009A47D9 /* AngularProgressElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AngularProgressElement.swift; sourceTree = "<group>"; };
 		938FDAD6298A4611009A47D9 /* AngularHierarchyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AngularHierarchyView.swift; sourceTree = "<group>"; };
 		938FDAD8298A461E009A47D9 /* AngularHierarchyLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AngularHierarchyLayer.swift; sourceTree = "<group>"; };
@@ -61,7 +61,7 @@
 		938FDAC3298A452F009A47D9 /* AngularHeirarchy */ = {
 			isa = PBXGroup;
 			children = (
-				938FDAD2298A45B2009A47D9 /* Closure.swift */,
+				938FDAD2298A45B2009A47D9 /* Updating.swift */,
 				938FDAC4298A452F009A47D9 /* AngularHeirarchyApp.swift */,
 				938FDAC6298A452F009A47D9 /* ContentView.swift */,
 				938FDAD4298A45CA009A47D9 /* AngularProgressElement.swift */,
@@ -158,7 +158,7 @@
 				938FDAD7298A4611009A47D9 /* AngularHierarchyView.swift in Sources */,
 				938FDAC5298A452F009A47D9 /* AngularHeirarchyApp.swift in Sources */,
 				938FDAD9298A461E009A47D9 /* AngularHierarchyLayer.swift in Sources */,
-				938FDAD3298A45B2009A47D9 /* Closure.swift in Sources */,
+				938FDAD3298A45B2009A47D9 /* Updating.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,14 +8,23 @@
 import SwiftUI
 
 struct AngularHierarchyView: View {
+    /// The elements selected in the hierarchy, from innermost to outermost
     @Binding var selectedElements: [AnyFanData]
-    @State var layers: Int = 1
+    /// The number of rings that will expand outwards before inner rings start to get smaller to make space
     @State var numberOfExteriorRings: Int = 3
+    /// The distance between each ring. The outermost ring is 5px further to make the spacing consistent.
     @State var distanceBetweenRings: CGFloat = 15
+    /// The distance from the center at which rings will start to fade away
     @State var diameterOfBlurCircle: CGFloat = 220
 
+    /// The data source, taking in the layer and the parent FanData (if any), returns an array of data
     var data: (Int, AnyFanData?) -> [AnyFanData]
+    /// If the element at the layer should be focused or not
     var shouldFocus: (Int, AnyFanData) -> Bool = { _, _ in true }
+
+    /// Usually synced with `selectedElements.count`, this is used mainly for animating
+    /// the layers to make them look smoother
+    @State private var layers: Int = 1
 
     init(selectedElements: Binding<[AnyFanData]>,
          numberOfExteriorRings: Int = 3,
@@ -42,6 +51,7 @@ struct AngularHierarchyView: View {
                 .padding(padding(for: layer))
             }
 
+            // the blur circle
             Circle()
                 .frame(width: diameterOfBlurCircle, height: diameterOfBlurCircle)
                 .foregroundColor(.init(uiColor: UIColor.systemBackground))
@@ -62,6 +72,7 @@ struct AngularHierarchyView: View {
         return data(layer, nil)
     }
 
+    /// Determines what the Angle is that the layer animates starting from. Defaults to zero degrees.
     func originAngle(for layer: Int) -> Angle {
         if layer == 0 || selectedElements.isEmpty { return .zero }
 
@@ -76,6 +87,7 @@ struct AngularHierarchyView: View {
         return startAngle + (arcAngle/2)
     }
 
+    /// Gets a binding for the focused element at a specified layer
     func focusedElement(for layer: Int) -> Binding<AnyFanData?> {
         .init {
             if layer >= selectedElements.count {
@@ -91,6 +103,7 @@ struct AngularHierarchyView: View {
         }
     }
 
+    /// Focuses the given element and animates the changes
     func focusElement(element: AnyFanData) {
         withAnimation(.easeOut(duration: 0.2)) {
             selectedElements.append(element)
@@ -98,6 +111,8 @@ struct AngularHierarchyView: View {
         }
     }
 
+    /// Unfocuses the element at the given layer and all layers above, and animates the changes
+    /// First gets rid of the layer, and then removes the element.
     func unfocusElement(index: Int) {
         let newElements = Array(selectedElements[0..<index])
         withAnimation(.easeOut(duration: 0.2)) {

@@ -7,19 +7,25 @@
 
 import SwiftUI
 
+// MARK: Declaration
+/// A protocol for data that the ``AngularProgressElement``, ``AngularHierarchyLayer``,
+/// and ``AngularHierarchyView`` use to display information
 protocol FanData: Identifiable, Hashable {
     var color: Color { get set }
     var name: String { get set }
     var progress: Double { get set }
 }
 
+// MARK: Array
 extension Array where Element: FanData {
+    /// The total progress of all the elements before a given index in the array
     func progressBefore(_ index: Int) -> Double {
         Array(self[0..<index]).reduce(Double(0)) { partialResult, data in
             partialResult + data.progress
         }
     }
 
+    /// Type erases this array into an ``AnyFanData``
     func typeErased() -> [AnyFanData] {
         return self.map { item in
             AnyFanData(from: item)
@@ -27,6 +33,7 @@ extension Array where Element: FanData {
     }
 }
 
+// MARK: Type erasing
 struct AnyFanData: FanData {
     var color: Color
     var name: String
@@ -46,6 +53,7 @@ struct AnyFanData: FanData {
         self.id = id
     }
 
+    /// Creates an `AnyFanData` by erasing a given ``FanData``
     init<F: FanData>(from sourceData: F) {
         self.init(color: sourceData.color,
                   name: sourceData.name,
@@ -68,9 +76,11 @@ struct AnyFanData: FanData {
 }
 
 extension Color {
+    /// SwiftUI Color for `UIColor.systemBackground`. Usually the opposite color to `Color.primary`
     static let background: Color = .init(uiColor: UIColor.systemBackground)
 }
 
+// MARK: Mock data
 struct ExampleFanData: FanData {
     var color: Color
     var name: String

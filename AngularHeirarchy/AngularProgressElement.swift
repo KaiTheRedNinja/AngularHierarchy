@@ -127,6 +127,7 @@ struct AngularProgressElement_Previews: PreviewProvider {
     static let totalSections: Int = 5
 
     static var previews: some View {
+        // 0% to 110%
         VStack {
             ForEach(0..<4) { row in
                 HStack {
@@ -147,6 +148,7 @@ struct AngularProgressElement_Previews: PreviewProvider {
             }
         }
 
+        // Testing sections and angular things
         ZStack {
             ForEach(0..<totalSections, id: \.self) { index in
                 AngularProgressElement(fillColour: colours[index%colours.count],
@@ -160,6 +162,7 @@ struct AngularProgressElement_Previews: PreviewProvider {
             }
         }.frame(width: 200, height: 200)
 
+        // One by itself
         AngularProgressElement(fillColour: .red,
                                lineThickness: 20,
                                spacing: 3,

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Updating
 
 struct AngularHierarchyLayer: View {
     /// The elements to show in the layer

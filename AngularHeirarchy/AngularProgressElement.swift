@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Updating
 
 struct AngularProgressElement: View {
     /// The primary colour to fill the progress view

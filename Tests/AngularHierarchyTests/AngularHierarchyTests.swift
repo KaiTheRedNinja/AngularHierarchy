@@ -1,5 +1,5 @@
 import XCTest
-@testable import AngularHeirarchy
+@testable import AngularHierarchy
 
 final class AngularHeirarchyTests: XCTestCase {
     func testExample() throws {

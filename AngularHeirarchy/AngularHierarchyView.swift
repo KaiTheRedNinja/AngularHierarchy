@@ -66,7 +66,7 @@ struct AngularHierarchyView: View {
     }
 
     func elements(for layer: Int) -> [AnyFanData] {
-        if layer > 0 && !selectedElements.isEmpty {
+        if layer > 0 && layer-1 < selectedElements.count {
             return data(layer, selectedElements[layer-1])
         }
         return data(layer, nil)
@@ -74,7 +74,7 @@ struct AngularHierarchyView: View {
 
     /// Determines what the Angle is that the layer animates starting from. Defaults to zero degrees.
     func originAngle(for layer: Int) -> Angle {
-        if layer == 0 || selectedElements.isEmpty { return .zero }
+        if layer == 0 || layer-1 >= selectedElements.count { return .zero }
 
         let selectedElement = selectedElements[layer-1]
         let elements = elements(for: layer-1)
@@ -150,12 +150,12 @@ struct AngularHierarchyView_Previews: PreviewProvider {
                     AngularHierarchyView(selectedElements: $selectedElements) { layer, _ in
                         if layer == 0 {
                             return ExampleFanData.examples.typeErased()
-                        } else if layer == 1 {
+                        } else if layer < 5 {
                             return secondLayer.typeErased()
                         }
                         return []
                     } shouldFocus: { layer, _ in
-                        layer == 0
+                        layer < 4
                     }
                     .frame(width: 300, height: 300)
                     .padding(.bottom, -120)

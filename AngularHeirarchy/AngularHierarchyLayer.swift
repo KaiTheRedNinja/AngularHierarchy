@@ -19,7 +19,7 @@ struct AngularHierarchyLayer: View {
     /// If the view should display the title of the currently focused element
     @Updating var showSelectedElementTitle: Bool = false
     /// The thickness of the segment when it is selected
-    @Updating var lineThicknessWhenSelected: CGFloat = 5
+    @Updating var lineThicknessWhenSelected: CGFloat = 15
 
     /// The angle that the layer animates from on appear
     @Updating var originAngle: Angle = .zero
@@ -38,7 +38,7 @@ struct AngularHierarchyLayer: View {
          focusRequirement: CGFloat = 30,
          focusIncrease: CGFloat = 0.05,
          showSelectedElementTitle: Bool = false,
-         lineThicknessWhenSelected: CGFloat = 5,
+         lineThicknessWhenSelected: CGFloat = 15,
          originAngle: Angle = .zero,
          focusedElement: Binding<AnyFanData?>,
          shouldAllowExpansion: @escaping (AnyFanData) -> Bool) {

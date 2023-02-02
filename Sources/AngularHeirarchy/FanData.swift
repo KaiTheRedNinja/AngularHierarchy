@@ -76,8 +76,13 @@ struct AnyFanData: FanData {
 }
 
 extension Color {
+    #if os(iOS)
     /// SwiftUI Color for `UIColor.systemBackground`. Usually the opposite color to `Color.primary`
     static let background: Color = .init(uiColor: UIColor.systemBackground)
+    #elseif os(macOS)
+    /// SwiftUI Color for `UIColor.systemBackground`. Usually the opposite color to `Color.primary`
+    static let background: Color = .init(nsColor: .textBackgroundColor)
+    #endif
 }
 
 // MARK: Mock data

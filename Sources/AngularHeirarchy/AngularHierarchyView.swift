@@ -54,7 +54,7 @@ struct AngularHierarchyView: View {
             // the blur circle
             Circle()
                 .frame(width: diameterOfBlurCircle, height: diameterOfBlurCircle)
-                .foregroundColor(.init(uiColor: UIColor.systemBackground))
+                .foregroundColor(.background)
                 .blur(radius: 15)
         }
     }
@@ -144,30 +144,39 @@ struct AngularHierarchyView_Previews: PreviewProvider {
         @State var selectedElements: [AnyFanData] = []
 
         var body: some View {
+            #if os(iOS)
             List {
-                HStack {
-                    Spacer()
-                    AngularHierarchyView(selectedElements: $selectedElements) { layer, _ in
-                        if layer == 0 {
-                            return ExampleFanData.examples.typeErased()
-                        } else if layer < 5 {
-                            return secondLayer.typeErased()
-                        }
-                        return []
-                    } shouldFocus: { layer, _ in
-                        layer < 4
-                    }
-                    .frame(width: 300, height: 300)
-                    .padding(.bottom, -120)
-                    .padding(.top, 20)
-                    Spacer()
-                }
+                hierarchy
 
                 ForEach(selectedElements) { element in
                     Text(element.name)
                 }
             }
             .listStyle(.inset)
+            #elseif os(macOS)
+            hierarchy
+                .frame(width: 600, height: 600)
+            #endif
+        }
+
+        var hierarchy: some View {
+            HStack {
+                Spacer()
+                AngularHierarchyView(selectedElements: $selectedElements) { layer, _ in
+                    if layer == 0 {
+                        return ExampleFanData.examples.typeErased()
+                    } else if layer < 5 {
+                        return secondLayer.typeErased()
+                    }
+                    return []
+                } shouldFocus: { layer, _ in
+                    layer < 4
+                }
+                .frame(width: 300, height: 300)
+                .padding(.bottom, -120)
+                .padding(.top, 20)
+                Spacer()
+            }
         }
     }
 }

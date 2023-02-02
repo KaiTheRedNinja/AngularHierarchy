@@ -1,9 +1,9 @@
 {
   "pins" : [
     {
-      "identity" : "updatedswiftui",
+      "identity" : "updating",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/KaiTheRedNinja/UpdatedSwiftUI",
+      "location" : "https://github.com/KaiTheRedNinja/Updating.git",
       "state" : {
         "branch" : "main",
         "revision" : "aa8ff2c6eccbca4cc7c3ac2f3e90a5fc9dfdfba4"

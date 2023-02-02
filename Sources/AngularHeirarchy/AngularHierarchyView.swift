@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AngularHierarchyView: View {
+public struct AngularHierarchyView: View {
     /// The elements selected in the hierarchy, from innermost to outermost
     @Binding var selectedElements: [AnyFanData]
     /// The number of rings that will expand outwards before inner rings start to get smaller to make space
@@ -44,7 +44,7 @@ struct AngularHierarchyView: View {
         self.shouldFocus = shouldFocus
     }
 
-    var body: some View {
+    public var body: some View {
         ZStack {
             ForEach(0..<layers, id: \.self) { layer in
                 AngularHierarchyLayer(elements: elements(for: layer),

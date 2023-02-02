@@ -8,7 +8,7 @@
 import SwiftUI
 import Updating
 
-struct AngularProgressElement: View {
+public struct AngularProgressElement: View {
     /// The primary colour to fill the progress view
     @Updating var fillColour: Color
     /// The secondary colour to fill the progress view
@@ -34,17 +34,17 @@ struct AngularProgressElement: View {
          startAngle: Angle,
          progress: CGFloat,
          label: String?) {
-        self._fillColour = .init(wrappedValue: fillColour)
-        self._secondaryColour = .init(wrappedValue: secondaryColour)
-        self._lineThickness = .init(wrappedValue: lineThickness)
-        self._borderThickness = .init(wrappedValue: borderThickness)
-        self._spacing = .init(wrappedValue: spacing)
-        self._startAngle = .init(wrappedValue: startAngle)
-        self._progress = .init(wrappedValue: progress)
-        self._label = .init(wrappedValue: label)
+        self._fillColour = <-fillColour
+        self._secondaryColour = <-secondaryColour
+        self._lineThickness = <-lineThickness
+        self._borderThickness = <-borderThickness
+        self._spacing = <-spacing
+        self._startAngle = <-startAngle
+        self._progress = <-progress
+        self._label = <-label
     }
 
-    var body: some View {
+    public var body: some View {
         GeometryReader { geom in
             ZStack(alignment: .center) {
                 Circle()

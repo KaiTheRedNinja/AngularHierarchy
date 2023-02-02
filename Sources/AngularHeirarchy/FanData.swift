@@ -10,14 +10,14 @@ import SwiftUI
 // MARK: Declaration
 /// A protocol for data that the ``AngularProgressElement``, ``AngularHierarchyLayer``,
 /// and ``AngularHierarchyView`` use to display information
-protocol FanData: Identifiable, Hashable {
+public protocol FanData: Identifiable, Hashable {
     var color: Color { get set }
     var name: String { get set }
     var progress: Double { get set }
 }
 
 // MARK: Array
-extension Array where Element: FanData {
+public extension Array where Element: FanData {
     /// The total progress of all the elements before a given index in the array
     func progressBefore(_ index: Int) -> Double {
         Array(self[0..<index]).reduce(Double(0)) { partialResult, data in
@@ -34,13 +34,13 @@ extension Array where Element: FanData {
 }
 
 // MARK: Type erasing
-struct AnyFanData: FanData {
-    var color: Color
-    var name: String
-    var progress: Double
+public struct AnyFanData: FanData {
+    public var color: Color
+    public var name: String
+    public var progress: Double
 
-    var id: AnyHashable
-    var source: (any FanData)?
+    public var id: AnyHashable
+    public var source: (any FanData)?
 
     init(color: Color,
          name: String,
@@ -62,7 +62,7 @@ struct AnyFanData: FanData {
         self.source = sourceData
     }
 
-    func hash(into hasher: inout Hasher) {
+    public func hash(into hasher: inout Hasher) {
         hasher.combine(color)
         hasher.combine(name)
         hasher.combine(progress)
@@ -70,7 +70,7 @@ struct AnyFanData: FanData {
         // ignore source
     }
 
-    static func == (lhs: AnyFanData, rhs: AnyFanData) -> Bool {
+    public static func == (lhs: AnyFanData, rhs: AnyFanData) -> Bool {
         lhs.hashValue == rhs.hashValue
     }
 }

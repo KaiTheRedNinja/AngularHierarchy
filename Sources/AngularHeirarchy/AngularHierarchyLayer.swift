@@ -8,7 +8,7 @@
 import SwiftUI
 import Updating
 
-struct AngularHierarchyLayer: View {
+public struct AngularHierarchyLayer: View {
     /// The elements to show in the layer
     @Updating var elements: [AnyFanData]
 
@@ -43,17 +43,17 @@ struct AngularHierarchyLayer: View {
          originAngle: Angle = .zero,
          focusedElement: Binding<AnyFanData?>,
          shouldAllowExpansion: @escaping (AnyFanData) -> Bool) {
-        self._elements = .init(wrappedValue: elements)
-        self._focusRequirement = .init(wrappedValue: focusRequirement)
-        self._focusIncrease = .init(wrappedValue: focusIncrease)
-        self._showSelectedElementTitle = .init(wrappedValue: showSelectedElementTitle)
-        self._lineThicknessWhenSelected = .init(wrappedValue: lineThicknessWhenSelected)
-        self._originAngle = .init(wrappedValue: originAngle)
+        self._elements = <-elements
+        self._focusRequirement = <-focusRequirement
+        self._focusIncrease = <-focusIncrease
+        self._showSelectedElementTitle = <-showSelectedElementTitle
+        self._lineThicknessWhenSelected = <-lineThicknessWhenSelected
+        self._originAngle = <-originAngle
         self._focusedElement = focusedElement
         self.shouldAllowExpansion = shouldAllowExpansion
     }
 
-    var body: some View {
+    public var body: some View {
         ZStack {
             ForEach(Array(elements.enumerated()), id: \.element) { index, element in
                 AngularProgressElement(fillColour: element.color,

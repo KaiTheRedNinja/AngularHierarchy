@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AngularHierarchyView: View {
-    @State var selectedElements: [AnyFanData] = []
+    @Binding var selectedElements: [AnyFanData]
     @State var layers: Int = 1
     @State var numberOfExteriorRings: Int = 3
     @State var distanceBetweenRings: CGFloat = 15
@@ -16,6 +16,20 @@ struct AngularHierarchyView: View {
 
     var data: (Int, AnyFanData?) -> [AnyFanData]
     var shouldFocus: (Int, AnyFanData) -> Bool = { _, _ in true }
+
+    init(selectedElements: Binding<[AnyFanData]>,
+         numberOfExteriorRings: Int = 3,
+         distanceBetweenRings: CGFloat = 15,
+         diameterOfBlurCircle: CGFloat = 220,
+         data: @escaping (Int, AnyFanData?) -> [AnyFanData],
+         shouldFocus: @escaping (Int, AnyFanData) -> Bool = { _, _ in true }) {
+        self._selectedElements = selectedElements
+        self.numberOfExteriorRings = numberOfExteriorRings
+        self.distanceBetweenRings = distanceBetweenRings
+        self.diameterOfBlurCircle = diameterOfBlurCircle
+        self.data = data
+        self.shouldFocus = shouldFocus
+    }
 
     var body: some View {
         ZStack {
@@ -42,14 +56,14 @@ struct AngularHierarchyView: View {
     }
 
     func elements(for layer: Int) -> [AnyFanData] {
-        if layer > 0 {
+        if layer > 0 && !selectedElements.isEmpty {
             return data(layer, selectedElements[layer-1])
         }
         return data(layer, nil)
     }
 
     func originAngle(for layer: Int) -> Angle {
-        if layer == 0 { return .zero }
+        if layer == 0 || selectedElements.isEmpty { return .zero }
 
         let selectedElement = selectedElements[layer-1]
         let elements = elements(for: layer-1)
@@ -98,26 +112,47 @@ struct AngularHierarchyView: View {
 }
 
 struct AngularHierarchyView_Previews: PreviewProvider {
-    static var secondLayer: [ExampleFanData] = [
-        .init(color: .yellow,
-              name: "70%",
-              progress: 0.7),
-        .init(color: .cyan,
-              name: "30%",
-              progress: 0.3),
-    ]
-
     static var previews: some View {
-        AngularHierarchyView { layer, _ in
-            if layer == 0 {
-                return ExampleFanData.examples.typeErased()
-            } else if layer == 1 {
-                return secondLayer.typeErased()
+        AngularHierarchyViewWrapper()
+    }
+
+    struct AngularHierarchyViewWrapper: View {
+        var secondLayer: [ExampleFanData] = [
+            .init(color: .yellow,
+                  name: "70%",
+                  progress: 0.7),
+            .init(color: .cyan,
+                  name: "30%",
+                  progress: 0.3),
+        ]
+
+        @State var selectedElements: [AnyFanData] = []
+
+        var body: some View {
+            List {
+                HStack {
+                    Spacer()
+                    AngularHierarchyView(selectedElements: $selectedElements) { layer, _ in
+                        if layer == 0 {
+                            return ExampleFanData.examples.typeErased()
+                        } else if layer == 1 {
+                            return secondLayer.typeErased()
+                        }
+                        return []
+                    } shouldFocus: { layer, _ in
+                        layer == 0
+                    }
+                    .frame(width: 300, height: 300)
+                    .padding(.bottom, -120)
+                    .padding(.top, 20)
+                    Spacer()
+                }
+
+                ForEach(selectedElements) { element in
+                    Text(element.name)
+                }
             }
-            return []
-        } shouldFocus: { layer, _ in
-            layer == 0
+            .listStyle(.inset)
         }
-        .frame(width: 300, height: 300)
     }
 }

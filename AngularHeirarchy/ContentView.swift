@@ -8,11 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var selectedElements: [AnyFanData] = []
+
     var body: some View {
-        AngularHierarchyView { _, _ in
-            return ExampleFanData.examples.typeErased()
-        }
-        .frame(width: 300, height: 300)
+        AngularHierarchyView_Previews.AngularHierarchyViewWrapper()
+//        AngularHierarchyView(selectedElements: $selectedElements) { _, _ in
+//            return ExampleFanData.examples.typeErased()
+//        }
+//        .frame(width: 300, height: 300)
     }
 }
 

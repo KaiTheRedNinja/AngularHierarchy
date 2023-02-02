@@ -33,6 +33,7 @@ struct AnyFanData: FanData {
     var progress: Double
 
     var id: AnyHashable
+    var source: (any FanData)?
 
     init(color: Color,
          name: String,
@@ -50,6 +51,19 @@ struct AnyFanData: FanData {
                   name: sourceData.name,
                   progress: sourceData.progress,
                   id: sourceData.id)
+        self.source = sourceData
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(color)
+        hasher.combine(name)
+        hasher.combine(progress)
+        hasher.combine(id)
+        // ignore source
+    }
+
+    static func == (lhs: AnyFanData, rhs: AnyFanData) -> Bool {
+        lhs.hashValue == rhs.hashValue
     }
 }
 

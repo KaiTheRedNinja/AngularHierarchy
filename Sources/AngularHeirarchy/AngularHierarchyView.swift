@@ -16,6 +16,8 @@ struct AngularHierarchyView: View {
     @State var distanceBetweenRings: CGFloat = 15
     /// The distance from the center at which rings will start to fade away
     @State var diameterOfBlurCircle: CGFloat = 220
+    /// The colour of the blur circle
+    @State var blurColor: Color = .background
 
     /// The data source, taking in the layer and the parent FanData (if any), returns an array of data
     var data: (Int, AnyFanData?) -> [AnyFanData]
@@ -30,11 +32,13 @@ struct AngularHierarchyView: View {
          numberOfExteriorRings: Int = 3,
          distanceBetweenRings: CGFloat = 15,
          diameterOfBlurCircle: CGFloat = 220,
+         blurColor: Color = .background,
          data: @escaping (Int, AnyFanData?) -> [AnyFanData],
          shouldFocus: @escaping (Int, AnyFanData) -> Bool = { _, _ in true }) {
         self._selectedElements = selectedElements
         self.numberOfExteriorRings = numberOfExteriorRings
         self.distanceBetweenRings = distanceBetweenRings
+        self.blurColor = .background
         self.diameterOfBlurCircle = diameterOfBlurCircle
         self.data = data
         self.shouldFocus = shouldFocus
@@ -54,7 +58,7 @@ struct AngularHierarchyView: View {
             // the blur circle
             Circle()
                 .frame(width: diameterOfBlurCircle, height: diameterOfBlurCircle)
-                .foregroundColor(.background)
+                .foregroundColor(blurColor)
                 .blur(radius: 15)
         }
     }
